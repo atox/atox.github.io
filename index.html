@@ -1,932 +1,226 @@
 
 <!DOCTYPE html>
-<html class="no-js" lang="en">
+<html>
 <head>
-  <!-- Meta Tags -->
-  <meta charset="utf-8" />
-  <meta http-equiv="x-ua-compatible" content="ie=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="author" content="themefar" />
-  <meta name="description" content="" />
-  <meta name="keywords" content="" />
-  <!-- Page Title -->
-  <title>Always have plan B</title>
-  <!-- Favicon Icon -->
-  <link rel="icon" href="assets/img/favicon.png" />
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-4.2.1.css">
-  <link rel="stylesheet" href="assets/css/owlCarousel.min.css" />
-  <link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/flaticon.css" />
-  <link rel="stylesheet" href="assets/css/animate.css" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+<meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+<title>引导页动画</title>
+
+<style>
+html,canvas,body{
+	width: 100%; height: 100%;
+	overflow: hidden;
+	font: 1em/1.5em 'Helvetica';
+    color: #333;
+    -webkit-user-select:disabled;
+	padding: 0;
+	margin: 0;
+}
+body{
+		display: flex;
+		/*min-height: 700px;*/
+		min-width: 900px;
+		min-height: 625px;
+    background: #000;
+    -webkit-perspective:1000px;
+		overflow: hidden;
+		justify-content: center;
+		align-items: center;
+}
+.out #title{
+	opacity: 0;
+	-webkit-transform: translateZ(-50px) rotateX(5deg);
+}
+.out #additional{
+	opacity: 0;
+}
+.out #stage{
+	opacity: 0;
+	-webkit-transform: translateZ(0px);
+}
+.in div{
+	opacity: 1;
+	-webkit-transform: translateZ(0px) rotateY(0) rotateX(0);
+}
+
+#ringgroup{
+	position: absolute;
+	width: 800px;
+	height: 800px;
+	left: 50%;
+	top: 50%;
+	margin-left: -400px;
+	margin-top: -400px;
+	-webkit-transition: All 2.2s 0.1s;
+	-webkit-transform: rotateZ(-360deg) translateZ(-4000px) scale(0.02);
+	-webkit-perspective:1000px;
+	-webkit-transform-style:preserve-3d;
+}
+#ringgroup.pass{
+	-webkit-transform:rotateZ(0) translateZ(3200px) scale(1);
+	opacity: 1;
+}
+.ring{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: url('images/ring.png');
+	-webkit-transform-style:preserve-3d;
+	/*border: 4px solid white;*/
+	/*border-radius: 400px;*/
+}
+.ring:nth-of-type(1){-webkit-transform: translateZ(0px);opacity: 1;}
+.ring:nth-of-type(2){-webkit-transform: rotateZ(60deg) translateZ(-1000px) scale(0.9);opacity: 0.7;}
+.ring:nth-of-type(3){-webkit-transform: rotateZ(120deg) translateZ(-200px) scale(0.8);opacity: 0.5;}
+.ring:nth-of-type(4){-webkit-transform: rotateZ(30deg) translateZ(-3000px) scale(0.7);opacity: 0.1;}
+#core{
+	display: block;
+	position: absolute;
+	width: 400px;
+	height: 316px;
+	left: 50%;
+	top: 50%;
+	margin-left: -200px;
+	margin-top: -158px;
+	-webkit-transition: All 0.9s ease;
+	-webkit-transform:  translateZ(-4000px) rotateY(90deg) rotateZ(30deg);
+	opacity: 1;
+}
+#core.pass{
+	-webkit-transform: rotateZ(0) translateZ(1000px) rotateY(-15deg);
+	opacity: 1;
+}
+#core img{
+	width: 100%;
+}
+#stage{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	-webkit-transition:All 2.3s 0s ease-in;
+	-webkit-filter:brightness(1.3);
+	/*border: 1px solid red;*/
+}
+#hero{
+	width: 100%;
+	text-align: center;
+	margin-top: -6%;
+}
+#hero img{
+	width: 82%;
+	max-width: 1133px;
+	margin-top: 100px;
+}
+#title{
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top: 14%;
+	text-align: center;
+	-webkit-transition:All 1.6s ease-out;
+}
+#title img{
+	width: 25%;
+	max-width: 530px;
+}
+#additional{
+	position: absolute;
+	width: 100%;
+	left: 0;
+	bottom: 16%;
+	text-align: center;
+	-webkit-transition:All 1s 0.8s ease-in;
+}
+#additional img{
+	width: 45%;
+	max-width: 760px;
+}
+#copyright{
+	position: fixed;
+	left: 15px;
+	bottom:15px;
+	color: rgba(255,255,255,0.2);
+	font-size: 12px;
+	font-family: Arial;
+}
+#light{
+	width: 700px;
+	height: 500px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -350px;
+	margin-top: -250px;
+	background: url('images/light.png');
+	-webkit-transform:scaleX(0.1) scaleY(0.1);
+	-webkit-filter:brightness(0);
+	-webkit-transition:All 0.4s ease-in;
+}
+#light.pass{
+	-webkit-transform:scaleX(2) scaleY(0.5);
+	-webkit-filter:brightness(6);
+}
+#light.passed{
+	-webkit-transform:scaleX(6) scaleY(1.1);
+	-webkit-filter:brightness(0);
+	-webkit-transition:All 0.3s ease-out;
+}
+#wave{
+	width: 320px;
+	height: 320px;
+	top: 50%;
+	left: 50%;
+	margin-left: -160px;
+	margin-top: -160px;
+	position: absolute;
+	background: url('images/wave.png');
+	-webkit-transform: scale(0.01);
+	-webkit-transition: All 0.9s 0.62s ease;
+	-webkit-filter:brightness(3);
+}
+#wave.pass{
+	-webkit-transform: scale(12);
+	-webkit-filter:brightness(1);
+	opacity: 0;
+}
+</style>
 </head>
+<body class="out">
+	<div id="light"></div>
+	<div id="wave"></div>
+	<div id="stage">
+  	<a href="wangzhan/indexwe.html"><div id="hero"><img src="images/hero.png"></div></a>
+	</div>
+	<div id="title">
+		<img src="images/title.png">
+	</div>
+	<div id="additional">
+		<img src="images/additional.png">
+	</div>
 
-<body>
-  <div id="tf-preloader">
-    <div class="tf-preloader-wave"></div>
-    <div class="tf-preloader-wave"></div>
-    <div class="tf-preloader-wave"></div>
-    <div class="tf-preloader-wave"></div>
-    <div class="tf-preloader-wave"></div>
-  </div>
-  <header class="tf-header tf-style1 tf-sticky-menu">
-    <div class="tf-main-header">
-      <div class="container">
-        <div class="tf-main-header-in">
-          <div class="tf-site-branding">
-            <a href="#" class="tf-logo-link"><img src="assets/img/light-img/logo.png" alt=""></a>
-          </div>
-          <!-- For Site Title -->
-          <!-- <span class="tf-site-title">
-            <a href="index.html">Logo</a>
-          </span> -->
-          <div class="tf-nav-wrap tf-fade-down">
-            <div class="tf-nav-toggle tf-style1">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <nav class="tf-nav tf-desktop-nav">
-              <ul class="tf-nav-list onepage-nav">
-                <li><a href="#home">首页</a></li>
-                <li><a href="#about">初心</a></li>
-                <li><a href="#service">服务</a></li>
-                <li><a href="#portfolio">作品</a></li>
-                <li><a href="#team">团队</a></li>
-                <li><a href="#price">价格</a></li>
-                <li><a href="#blog">社交</a></li>
-                <li><a href="#contact">联系</a></li>
-              </ul>
-            </nav><!-- .tf-nav -->
-          </div><!-- .tf-nav-wrap -->
-        </div>
-      </div>
-    </div>
-  </header>
-  <div class="tf-content">
-    <!-- Start Hero Slider -->
-    <div class="tf-hero-slider1 owl-carousel tf-owl-controler2" id="home">
-      <div class="tf-hero-slide tf-style1 tf-flex">
-        <div class="container">
-          <div class="tf-hero-text tf-style1">
-            <h1 class="tf-hero-title">Always Have Plan B.</h1>
-            <div class="tf-hero-subtitle">
-              用设计打破边界，让设计更具价值.
-            </div>
-            <div class="tf-btn-group tf-style1">
-              <a href="#" class="tf-btn tf-style1 tf-color1">了解更多</a>
-              <a href="https://www.youtube.com/embed/jRcfE2xxSAw?autoplay=1" class="tf-btn tf-style2 tf-video-open"><i class="flaticon-multimedia"></i> Watch Video</a>
-            </div>
-          </div>
-        </div>
-        <div class="tf-hero-img"><img src="assets/img/light-img/hero-img.png" alt=""></div>
-      </div>
-      <div class="tf-hero-slide tf-style1 tf-flex">
-        <div class="container">
-          <div class="tf-hero-text tf-style1">
-            <h1 class="tf-hero-title">Always Have Plan A.</h1>
-            <div class="tf-hero-subtitle">
-              用设计打破边界，让设计更具价值.
-            </div>
-            <div class="tf-btn-group tf-style1">
-              <a href="#" class="tf-btn tf-style1 tf-color1">了解更多</a>
-              <a href="https://www.youtube.com/embed/jRcfE2xxSAw?autoplay=1" class="tf-btn tf-style2 tf-video-open"><i class="flaticon-multimedia"></i> Watch Video</a>
-            </div>
-          </div>
-        </div>
-        <div class="tf-hero-img"><img src="assets/img/light-img/hero-img1.png" alt=""></div>
-      </div>
-    </div>
-    <!-- End Hero Slider -->
-    <!-- Start Icon Box -->
-    <section class="tf-section-top">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="tf-iconbox tf-style1 text-center wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.2s">
-              <div class="tf-iconbox-icon">
-                <i class="flaticon-focus"></i>
-              </div>
-              <h3 class="tf-iconbox-title">专业</h3>
-              <div class="tf-iconbox-text">
-                专业设计院校毕业，通过ACCA高级视觉设计师认证，过硬的技术才是作品品质的重要保障.
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="tf-iconbox tf-style1 text-center wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.3s">
-              <div class="tf-iconbox-icon">
-                <i class="flaticon-career"></i>
-              </div>
-              <h3 class="tf-iconbox-title">优惠</h3>
-              <div class="tf-iconbox-text">
-                相比同行业拥有更低的价格，但是低价的同时不会影响作品的品质，低价的作品也能创造出更高的价值.
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="tf-iconbox tf-style1 text-center wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.4s">
-              <div class="tf-iconbox-icon">
-                <i class="flaticon-career-1"></i>
-              </div>
-              <h3 class="tf-iconbox-title">全面</h3>
-              <div class="tf-iconbox-text">
-                设计服务涵盖范围广，传统行业、互联网行业、区块链行业等，用设计打破边界是我们所秉承的信念.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- End Icon Box -->
+	<div id="ringgroup">
+		<div class="ring"></div>
+		<div class="ring"></div>
+		<div class="ring"></div>
+		<div class="ring"></div>
+	</div>
+	<div id="core">
+		<img src="images/47.png"></div>
+	
 
-    <!-- Start About Section -->
-    <div class="tf-about-wrap tf-section-top" id="about">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="tf-vertical-middle">
-              <div class="tf-vertical-middle-in">
-                <div class="tf-about-img wow fadeInLeft" data-wow-duration="0.8s" data-wow-delay="0.2s"><img src="assets/img/light-img/about-img1.png" alt=""></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="tf-section-heading tf-style1">
-              <h3>Dreaming</h3>
-              <h2>初心？</h2>
-            </div>
-            <div class="tf-about-text">
-              <p>Ahbp成立于2020年5月25日，旨在为所有广大客户及初创公司提供优质设计服务，团队成员拥有丰富的设计及运营经验.</p>
-              <ul class="tr-list">
-                <li>用设计打破边界.</li>
-                <li>Break boundaries with design.</li>
-                <li>让设计更具价值.</li>
-                <li>Add Value to Design.</li>
-              </ul>
-              <a href="#" class="tf-btn tf-style1 tf-size1 tf-color2">了解更多</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End About Section -->
+	
+<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script src="js/retina.min.js"></script>
+<script>
+$(document).ready(function(){
 
-    <!-- Start Service Section -->
-    <section class="tf-service-section tf-section-top" id="service">
-      <div class="container">
-        <div class="tf-section-heading tf-style2 text-center">
-          <h2>服务内容</h2>
-          <div class="tf-seperator">
-            <div class="tf-seperator-left-bar wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s"></div>
-            <img src="assets/img/light-img/seperator-icon.png" alt="" class="tf-seperator-icon">
-            <div class="tf-seperator-right-bar wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s"></div>
-          </div>
-          <p>服务内容涉及所有行业，Ahbp致力于用设计打破行业边界<br>让设计创造出更高的价值.</p>
-        </div>
-      </div>
-      <div class="tf-owl-controler3-hover">
-        <div class="container">
-          <div class="tf-service-carousel owl-carousel tf-style2 tf-owl-controler3">
-            <div class="tf-image-box tf-style1 text-center wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.2s">
-              <a href="#" class="tf-image"><img src="assets/img/light-img/service1.png" alt=""></a>
-              <div class="tf-image-box-info">
-                <h3 class="tf-image-box-title"><a href="#">品牌设计</a></h3>
-                <div class="tf-image-box-text">品牌“从0到1”，VI手册、IP形象设计、产品包装、后续线上线下宣传物料设计。品牌官网、App界面、小程序开发等.</div>
-              </div>
-            </div>
-            <div class="tf-image-box tf-style1 text-center wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.25s">
-              <a href="#" class="tf-image"><img src="assets/img/light-img/service2.png" alt=""></a>
-              <div class="tf-image-box-info">
-                <h3 class="tf-image-box-title"><a href="#">电商设计</a></h3>
-                <div class="tf-image-box-text">店铺整体视觉设计，详情页、主图、宣传海报、产品精修等；同时可以为商家对接店铺运营等服务.</div>
-              </div>
-            </div>
-            <div class="tf-image-box tf-style1 text-center wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.3s">
-              <a href="#" class="tf-image"><img src="assets/img/light-img/service3.png" alt=""></a>
-              <div class="tf-image-box-info">
-                <h3 class="tf-image-box-title"><a href="#">其他设计</a></h3>
-                <div class="tf-image-box-text">企业宣传海报、朋友圈海报、KV、视频剪辑、MG动画制作、书籍排版、3D设计、各种定制设计服务.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tf-service-background-shap">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="858px" height="924px">
-          <path fill-rule="evenodd"  fill="rgb(249, 251, 255)" d="M664.747,103.039 C653.462,87.314 639.932,72.487 623.957,58.931 C548.874,-4.793 440.575,-17.454 354.139,28.436 C295.555,59.540 256.035,109.725 237.462,166.269 C210.450,248.522 169.585,324.882 114.434,391.411 C-3.108,533.202 -36.669,703.629 44.624,816.957 C149.756,963.519 407.069,959.014 619.349,806.896 C831.627,654.780 918.489,412.653 813.356,266.091 C804.112,253.203 793.682,241.497 782.210,230.960 C739.413,191.657 698.632,150.252 664.747,103.039 Z"/>
-        </svg>
-      </div>
-    </section>
-    <!-- End Service Section -->
+	startdelay = 200;
+	coredelay = 300;
+	maindelay = 630;
+	setTimeout("$('#ringgroup').addClass('pass');$('#light').addClass('pass');$('#core').addClass('pass');",startdelay);
+	setTimeout("$('#light').addClass('passed');$('#wave').addClass('pass');",startdelay + coredelay);
+	setTimeout("$('body').removeClass('out').addClass('in')", startdelay + coredelay + maindelay);
 
-    <!-- Start Fun Fact Section -->
-    <div class="tf-funfact-wrap tf-section-top">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-3 col-sm-6">
-            <div class="tf-funfact text-center wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.2s">
-              <div class="tf-funfact-icon"><i class="flaticon-rate"></i></div>
-              <h2 class="tf-funfact-number tf-counter">1200</h2>
-              <h3 class="tf-funfact-title">客户数量</h3>
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6">
-            <div class="tf-funfact text-center wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.25s">
-              <div class="tf-funfact-icon"><i class="flaticon-code"></i></div>
-              <h2 class="tf-funfact-number tf-counter">185</h2>
-              <h3 class="tf-funfact-title">项目总数</h3>
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6">
-            <div class="tf-funfact text-center wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.3s">
-              <div class="tf-funfact-icon"><i class="flaticon-laptop"></i></div>
-              <h2 class="tf-funfact-number tf-counter">30</h2>
-              <h3 class="tf-funfact-title">团队人数</h3>
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6">
-            <div class="tf-funfact text-center wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.35s">
-              <div class="tf-funfact-icon"><i class="flaticon-win"></i></div>
-              <h2 class="tf-funfact-number tf-counter">200</h2>
-              <h3 class="tf-funfact-title">所获荣誉</h3>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End Fun Fact Section -->
-
-    <!-- Start Project Section -->
-    <div class="tf-project-wrap tf-section-top" id="portfolio">
-      <div class="container">
-        <div class="tf-section-heading tf-style2 text-center">
-          <h2>项目案例</h2>
-          <div class="tf-seperator">
-            <div class="tf-seperator-left-bar wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s"></div>
-            <img src="assets/img/light-img/seperator-icon.png" alt="" class="tf-seperator-icon">
-            <div class="tf-seperator-right-bar wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s"></div>
-          </div>
-          <p>服务项目种类丰富，客户满意率均在95%以上 <br>得到全行业内的普遍认可.</p>
-        </div>
-      </div>
-      <div class="tf-project tf-project-carousel owl-carousel tf-style1 tf-owl-controler1">
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.2s" data-src="assets/img/light-img/project1.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.25s" data-src="assets/img/light-img/project2.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.3s" data-src="assets/img/light-img/project3.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.35s" data-src="assets/img/light-img/project4.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.2s" data-src="assets/img/light-img/project1.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.25s" data-src="assets/img/light-img/project2.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.3s" data-src="assets/img/light-img/project3.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.35s" data-src="assets/img/light-img/project4.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.2s" data-src="assets/img/light-img/project1.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.25s" data-src="assets/img/light-img/project2.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.3s" data-src="assets/img/light-img/project3.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.35s" data-src="assets/img/light-img/project4.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.2s" data-src="assets/img/light-img/project1.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.25s" data-src="assets/img/light-img/project2.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.3s" data-src="assets/img/light-img/project3.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-        <a href="#" class="tf-single-project tf-bg wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.35s" data-src="assets/img/light-img/project4.png">
-          <div class="tf-project-meta">
-            <h3>Project Title One</h3>
-            <span>Branding</span>
-          </div>
-        </a>
-      </div>
-    </div>
-    <!-- End Project Section -->
-
-    <!-- Start Skill Section -->
-    <section class="tf-skill-wrap tf-section-top">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="tf-vertical-middle">
-              <div class="tf-vertical-middle-in wow fadeInLeft" data-wow-duration="0.8s" data-wow-delay="0.2s">
-                <div class="tf-skill-img text-center">
-                  <img src="assets/img/light-img/skill-img.png" alt="">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="tf-section-heading tf-style2 tf-type2">
-              <h2>专业技能</h2>
-              <p>工欲善其事必先利其器，只有在保证熟练掌握设计工具的基础上，才能创作出独一无二的作品，定期组织团队成员进行技术培训，以此来提高工作效率.</p>
-            </div>
-            <div class="tf-progressbar-wrap">
-              <div class="tf-single-progressbar">
-                <div class="tf-progressbar-meta">
-                  <h3 class="tf-progressbar-title">Illustrator</h3>
-                  <div class="tf-progressbar-percentage">90%</div>
-                </div>
-                <div class="tf-progressbar" data-progress-percentage="90">
-                  <div class="tf-progressbar-in wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s"></div>
-                </div>
-              </div><!-- .tf-single-progressbar -->
-              <div class="tf-single-progressbar">
-                <div class="tf-progressbar-meta">
-                  <h3 class="tf-progressbar-title">Photoshop</h3>
-                  <div class="tf-progressbar-percentage">95%</div>
-                </div>
-                <div class="tf-progressbar" data-progress-percentage="95">
-                  <div class="tf-progressbar-in wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s"></div>
-                </div>
-              </div><!-- .tf-single-progressbar -->
-              <div class="tf-single-progressbar">
-                <div class="tf-progressbar-meta">
-                  <h3 class="tf-progressbar-title">AfterEffects</h3>
-                  <div class="tf-progressbar-percentage">85%</div>
-                </div>
-                <div class="tf-progressbar" data-progress-percentage="85">
-                  <div class="tf-progressbar-in wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s"></div>
-                </div>
-              </div><!-- .tf-single-progressbar -->
-              <div class="tf-single-progressbar">
-                <div class="tf-progressbar-meta">
-                  <h3 class="tf-progressbar-title">Premiere</h3>
-                  <div class="tf-progressbar-percentage">80%</div>
-                </div>
-                <div class="tf-progressbar" data-progress-percentage="80">
-                  <div class="tf-progressbar-in wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s"></div>
-                </div>
-              </div><!-- .tf-single-progressbar -->
-              <div class="tf-single-progressbar">
-                <div class="tf-progressbar-meta">
-                  <h3 class="tf-progressbar-title">CorelDRAW</h3>
-                  <div class="tf-progressbar-percentage">95%</div>
-                </div>
-                <div class="tf-progressbar" data-progress-percentage="95">
-                  <div class="tf-progressbar-in wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s"></div>
-                </div>
-              </div><!-- .tf-single-progressbar -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- End Skill Section -->
-
-    <!-- Start Team Section -->
-    <section class="tf-team-wrap tf-section" id="team">
-      <div class="container">
-        <div class="tf-section-heading tf-style2 text-center">
-          <h2>团队介绍</h2>
-          <div class="tf-seperator">
-            <div class="tf-seperator-left-bar wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s"></div>
-            <img src="assets/img/light-img/seperator-icon.png" alt="" class="tf-seperator-icon">
-            <div class="tf-seperator-right-bar wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s"></div>
-          </div>
-          <p>团队成员均来自各个行业一线岗位，拥有丰富的经验以及广阔的视野 <br>为您提供更优质的服务.</p>
-        </div>
-      </div>
-      <div class="tf-owl-controler3-hover">
-        <div class="container">
-          <div class="tf-member-carousel owl-carousel tf-style2 tf-owl-controler3">
-            <div class="tf-team-member text-center wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.2s">
-              <div class="tf-member-img">
-                <img src="assets/img/light-img/team1.png" alt="">
-              </div>
-              <div class="tf-member-info">
-                <h3 class="tf-member-name">TTFN</h3>
-                <div class="tf-member-designation">全栈设计师</div>
-                <ul class="tf-member-social-btn tf-flex tf-mp0">
-                  <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
-                  <li><a href="#"><i class="fab fa-twitter-square"></i></a></li>
-                  <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
-                  <li><a href="#"><i class="fab fa-pinterest-square"></i></a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="tf-team-member text-center wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.25s">
-              <div class="tf-member-img">
-                <img src="assets/img/light-img/team2.png" alt="">
-              </div>
-              <div class="tf-member-info">
-                <h3 class="tf-member-name">Aston Dark</h3>
-                <div class="tf-member-designation">品牌设计师</div>
-                <ul class="tf-member-social-btn tf-flex tf-mp0">
-                  <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
-                  <li><a href="#"><i class="fab fa-twitter-square"></i></a></li>
-                  <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
-                  <li><a href="#"><i class="fab fa-pinterest-square"></i></a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="tf-team-member text-center wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.3s">
-              <div class="tf-member-img">
-                <img src="assets/img/light-img/team3.png" alt="">
-              </div>
-              <div class="tf-member-info">
-                <h3 class="tf-member-name">Keir Preston</h3>
-                <div class="tf-member-designation">文案策划</div>
-                <ul class="tf-member-social-btn tf-flex tf-mp0">
-                  <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
-                  <li><a href="#"><i class="fab fa-twitter-square"></i></a></li>
-                  <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
-                  <li><a href="#"><i class="fab fa-pinterest-square"></i></a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="tf-team-member text-center wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.35s">
-              <div class="tf-member-img">
-                <img src="assets/img/light-img/team4.png" alt="">
-              </div>
-              <div class="tf-member-info">
-                <h3 class="tf-member-name">Criss Donald</h3>
-                <div class="tf-member-designation">电商设计师</div>
-                <ul class="tf-member-social-btn tf-flex tf-mp0">
-                  <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
-                  <li><a href="#"><i class="fab fa-twitter-square"></i></a></li>
-                  <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
-                  <li><a href="#"><i class="fab fa-pinterest-square"></i></a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- End Team Section -->
-
-    <!-- Start CTA Section -->
-    <section class="tf-cta-wrap tf-gray-bg">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-7 offset-lg-1">
-            <div class="tf-cta text-center tf-section">
-              <h2 class="tf-cta-title">设计，源于对新事物的无尽探索</h2>
-              <div class="tf-cta-text">设计的魅力就在于，你创造出来的东西，除了你没有别人再能创造.<br>如果你也热衷于创造新事物，可以和我们取得联系<br>与我们一起前行.</div>
-              <div class="tf-cta-btn">
-                <a href="#" class="tf-btn tf-style1 tf-size1 tf-color1">联系我们</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="tf-vertical-middle">
-              <div class="tf-vertical-middle-in tf-flex">
-                <div class="tf-cta-img wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s">
-                  <img src="assets/img/light-img/cta-img.png" alt="">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- End CTA Section -->
-
-    <!-- Start Pricing Plan -->
-    <section class="tf-pricing-wrap tf-section" id="price">
-      <div class="container">
-        <div class="tf-section-heading tf-style2 text-center">
-          <h2>服务价格参考</h2>
-          <div class="tf-seperator">
-            <div class="tf-seperator-left-bar wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s"></div>
-            <img src="assets/img/light-img/seperator-icon.png" alt="" class="tf-seperator-icon">
-            <div class="tf-seperator-right-bar wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s"></div>
-          </div>
-          <p>优质作品与优惠低价兼顾，为所有需要的人提供优质服务 <br>以下价格仅提供参考，以最终价格为准.</p>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="tf-price-card text-center wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.2s">
-              <div class="tf-price-card-img"><img src="assets/img/light-img/price-img1.png" alt=""></div>
-              <h3 class="tf-price-card-title">详情页</h3>
-              <div class="tf-price">
-                <h3>0.5ETH</h3>
-                <span>参考价格</span>
-              </div>
-              <ul class="tf-price-card-feature tf-mp0">
-                <li>三次免费修改</li>
-                <li>可定制包月</li>
-                <li>多种套餐可选</li>
-                <li>定期折扣</li>
-              </ul>
-              <div class="tf-price-card-btn">
-                <a href="#" class="tf-btn tf-style1 tf-size1 tf-color1">立即咨询</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="tf-price-card text-center tf-featured-price wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.3s">
-              <div class="tf-price-card-img"><img src="assets/img/light-img/price-img2.png" alt=""></div>
-              <h3 class="tf-price-card-title">主图 & 海报</h3>
-              <div class="tf-price">
-                <h3>0.3ETH</h3>
-                <span>参考价格</span>
-              </div>
-              <ul class="tf-price-card-feature tf-mp0">
-                <li>两次免费修改</li>
-                <li>可定制包月</li>
-                <li>多种套餐可选</li>
-                <li>定期折扣</li>
-              </ul>
-              <div class="tf-price-card-btn">
-                <a href="#" class="tf-btn tf-style1 tf-size1 tf-color2">立即咨询</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="tf-price-card text-center wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.4s">
-              <div class="tf-price-card-img"><img src="assets/img/light-img/price-img3.png" alt=""></div>
-              <h3 class="tf-price-card-title">店铺装修</h3>
-              <div class="tf-price">
-                <h3>1.5ETH</h3>
-                <span>参考价格</span>
-              </div>
-              <ul class="tf-price-card-feature tf-mp0">
-                <li>精美模板效率更高</li>
-                <li>商家可专属定制</li>
-                <li>多种套餐可选</li>
-                <li>定期折扣</li>
-              </ul>
-              <div class="tf-price-card-btn">
-                <a href="#" class="tf-btn tf-style1 tf-size1 tf-color1">立即咨询</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- End Pricing Plan -->
-    
-    <!-- Start Blog Section -->
-    <section class="tf-blog-wrap tf-section tf-gray-bg" id="blog">
-      <div class="container">
-        <div class="tf-section-heading tf-style2 text-center">
-          <h2>Always have paln B</h2>
-          <div class="tf-seperator">
-            <div class="tf-seperator-left-bar wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s"></div>
-            <img src="assets/img/light-img/seperator-icon.png" alt="" class="tf-seperator-icon">
-            <div class="tf-seperator-right-bar wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s"></div>
-          </div>
-          <p>Ahpb不仅是为广大用户提供设计服务，而且会定期免费分享设计教程 <br>为提高大众审美水平贡献绵薄之力.</p>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="tf-blog tf-style1 wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.2s">
-              <div class="tf-zoom">
-                <a href="#" class="tf-blog-thumb tf-bg tf-zoom-in" data-src="assets/img/light-img/blog1.png"></a>
-              </div>
-              <div class="tf-blog-info">
-                <div class="tf-blog-label">By <a href="#">Ahpb团队</a></div>
-                <h2 class="tf-blog-title"><a href="#">版式设计原理全面讲解，让你的板式焕然一新.</a></h2>
-                <div class="tf-blog-text">A business plan is a formal written document containing business goals. The methods on how these goals can be [....]</div>
-                <div class="tf-blog-meta">
-                  <div class="tf-blog-meta-left"><span class="tf-posted-by">13 June, 2020</span></div>
-                  <div class="tf-blog-meta-right"><a href="#" class="tf-blog-btn">观看教程 <i class="fas fa-chevron-right"></i></a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="tf-blog tf-style1 wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.3s">
-              <div class="tf-zoom">
-                <a href="#" class="tf-blog-thumb tf-bg tf-zoom-in" data-src="assets/img/light-img/blog2.png"></a>
-              </div>
-              <div class="tf-blog-info">
-                <div class="tf-blog-label">By <a href="#">Ahpb团队</a></div>
-                <h2 class="tf-blog-title"><a href="#">配色指南，一个专题囊括所有配色方法和技巧的教程！</a></h2>
-                <div class="tf-blog-text">Business may offer to many differing activitie, such as the activity of buying or selling in trade. Business activity [....]</div>
-                <div class="tf-blog-meta">
-                  <div class="tf-blog-meta-left"><span class="tf-posted-by">13 June, 2020</span></div>
-                  <div class="tf-blog-meta-right"><a href="#" class="tf-blog-btn">观看教程 <i class="fas fa-chevron-right"></i></a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="tf-blog tf-style1 wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.3s">
-              <div class="tf-zoom">
-                <a href="#" class="tf-blog-thumb tf-bg tf-zoom-in" data-src="assets/img/light-img/blog3.png"></a>
-              </div>
-              <div class="tf-blog-info">
-                <div class="tf-blog-label">By <a href="#">Ahpb团队</a></div>
-                <h2 class="tf-blog-title"><a href="#">视频剪辑基础教程，让你成为全能设计师.</a></h2>
-                <div class="tf-blog-text">Business statistics is the science of good decision making in the face of ambiguity and is used in many system [....]</div>
-                <div class="tf-blog-meta">
-                  <div class="tf-blog-meta-left"><span class="tf-posted-by">13 June, 2020</span></div>
-                  <div class="tf-blog-meta-right"><a href="#" class="tf-blog-btn">观看教程 <i class="fas fa-chevron-right"></i></a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- End Blog Section -->
-
-    <!-- Start Client Section -->
-    <div class="tf-client-wrap tf-section">
-      <div class="container">
-        <div class="tf-client-carousel owl-carousel">
-          <div class="tf-client-logo tf-flex wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.2s"><img src="assets/img/light-img/client-logo01.png" alt=""></div>
-          <div class="tf-client-logo tf-flex wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.25s"><img src="assets/img/light-img/client-logo02.png" alt=""></div>
-          <div class="tf-client-logo tf-flex wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.3s"><img src="assets/img/light-img/client-logo03.png" alt=""></div>
-          <div class="tf-client-logo tf-flex wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.35s"><img src="assets/img/light-img/client-logo04.png" alt=""></div>
-          <div class="tf-client-logo tf-flex wow fadeIn" data-wow-duration="0.8s" data-wow-delay="0.4s"><img src="assets/img/light-img/client-logo05.png" alt=""></div>
-        </div>
-      </div>
-    </div>
-    <!-- End Client Section -->
-
-    <!-- Start Testimonial Section -->
-    <section class="tf-testimonial-wrap tf-section tf-gray-bg">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="tf-testimonial-right-img tf-flex wow fadeInLeft" data-wow-duration="0.8s" data-wow-delay="0.2s">
-              <img src="assets/img/light-img/testimonial-img.png" alt="">
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="tf-vertical-middle">
-              <div class="tf-vertical-middle-in">
-                <div class="tf-section-heading tf-style1">
-                  <h3>Designer</h3>
-                  <h2>用设计的眼光看世界</h2>
-                </div>
-                <div class="tf-testimonial-slider owl-carousel tf-owl-controler4">
-                  <div class="tf-single-testimonial">
-                    <div class="tf-testimonial-quote tf-flex"><i class="fas fa-quote-right"></i></div>
-                    <div class="tf-testimonial-text">“I am very happy to create a website from you. Whatever I wanted for my website, I got everything from you very quickly. When I made a website in the future, I will build from you. ”</div>
-                    <div class="tf-testimonial-meta">
-                      <h3>by Ahpb</h3>
-                      <p>高级视觉设计师</p>
-                    </div>
-                  </div>
-                  <div class="tf-single-testimonial">
-                    <div class="tf-testimonial-quote tf-flex"><i class="fas fa-quote-right"></i></div>
-                    <div class="tf-testimonial-text">“I am very happy to create a website from you. Whatever I wanted for my website, I got everything from you very quickly. When I made a website in the future, I will build from you. ”</div>
-                    <div class="tf-testimonial-meta">
-                      <h3>by Ahpb</h3>
-                      <p>文案策划</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- End Testimonial Section -->
-
-    <!-- Start News Letter Section -->
-    <section class="tf-section">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="tf-newsletter-wrap">
-              <div class="tf-left-newsletter">
-                <div class="tf-section-heading tf-style1 tf-type1">
-                  <h3>Follow us</h3>
-                  <h2>关注我们</h2>
-                </div>
-                <div class="tf-newsletter">
-                  <div class="tf-newsletter-text">关注我们的自媒体账号，每次发布新活动时，我们电子邮件通知.</div>
-                  <form class="mailchimp tf-subscribe-form" action="https://storerepublic.us12.list-manage.com/subscribe/post?u=d227d8d335060b093084903d0&amp;id=9ba078ceb0">
-                    <input type="email" name="subscribe" id="subscriber-email" placeholder="Enter your Email">
-                    <button type="submit" id="subscribe-button" class="tf-newsletter-btn"><i class="flaticon-plane"></i></button>
-                    <!-- SUBSCRIPTION SUCCESSFUL OR ERROR MESSAGES -->
-                    <h5 class="subscription-success"> .</h5>
-                    <h5 class="subscription-error"> .</h5>
-                    <label class="subscription-label" for="subscriber-email"></label>
-                  </form>
-                </div>
-              </div>
-              <div class="tf-right-newsletter">
-                <div class="tf-newsletter-img wow fadeInRight" data-wow-duration="0.8s" data-wow-delay="0.2s">
-                  <img src="assets/img/light-img/news-letter-img.png" alt="">
-                  <div class="tf-bard-animation">
-                    <div class="tf-bard-animation1"><img src="assets/img/light-img/bard1.png" alt=""></div>
-                    <div class="tf-bard-animation2"><img src="assets/img/light-img/bard2.png" alt=""></div>
-                    <div class="tf-bard-animation3"><img src="assets/img/light-img/bard3.png" alt=""></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- End News Letter Section -->
-
-    <!-- Start Contact Section -->
-    <section class="tf-contact-wrap tf-gray-bg tf-section" id="contact">
-      <div class="container">
-        <div class="tf-section-heading tf-style2 text-center">
-          <h2>联系我们</h2>
-          <div class="tf-seperator">
-            <div class="tf-seperator-left-bar wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s"></div>
-            <img src="assets/img/light-img/seperator-icon.png" alt="" class="tf-seperator-icon">
-            <div class="tf-seperator-right-bar wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s"></div>
-          </div>
-          <p>如果您有设计需求或者有合作的意愿，请联系我们 <br>我们会在3小时内回复您.</p>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6">
-            <div id="cf-msg"></div>
-            <form action="assets/php/mail.php" method="post" class="tf-contact-form" id="cf">
-              <input type="text" placeholder="Full Name" id="name" name="name">
-              <input type="text" placeholder="Email Address" id="email" name="email">
-              <input type="text" placeholder="Subject" id="subject" name="subject">
-              <textarea cols="30" rows="10" placeholder="Your Message" id="msg" name="msg"></textarea>
-              <button class="tf-btn tf-style1 tf-size1 tf-color1" type="submit" id="submit" name="submit">Send Message</button>
-            </form>
-          </div>
-          <div class="col-lg-6">
-            <div class="tf-contact-info tf-style1">
-              <div class="tf-contact-info-in">
-                <h3 class="tf-contact-info-title">Always have plan B</h3>
-                <div class="tf-contact-info-text">如果您需要有关我们业务的任何信息，请拨打下方的电话或者发送电子邮件到我们的邮箱.</div>
-                <h3 class="tf-contact-info-title">联系方式</h3>
-                <ul>
-                  <li><i class="fas fa-map-signs"></i>陕西省西安市雁塔区长逸路228号</li>
-                  <li><i class="fas fa-phone"></i>+86 199-0923-1501</li>
-                  <li><i class="fas fa-envelope"></i><a href="#">ahpb2020.163.com</a></li>
-                  <li><i class="fas fa-globe"></i><a href="#">www.atox.github.io</a></li>
-                </ul>
-              </div>
-              <div class="tf-svg-animation1">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="590px" height="436px">
-                  <defs>
-                    <filter filterUnits="userSpaceOnUse" id="Filter_0" x="0px" y="0px" width="590px" height="436px"  >
-                        <feOffset in="SourceAlpha" dx="0" dy="5" />
-                        <feGaussianBlur result="blurOut" stdDeviation="3.162" />
-                        <feFlood flood-color="rgb(106, 106, 106)" result="floodOut" />
-                        <feComposite operator="atop" in="floodOut" in2="blurOut" />
-                        <feComponentTransfer><feFuncA type="linear" slope="0.15"/></feComponentTransfer>
-                        <feMerge>
-                        <feMergeNode/>
-                        <feMergeNode in="SourceGraphic"/>
-                      </feMerge>
-                    </filter>
-                  </defs>
-                  <g filter="url(#Filter_0)">
-                    <path fill-rule="evenodd"  fill="rgb(255, 255, 255)" d="M359.506,400.811 C311.350,416.741 266.303,427.200 215.885,416.924 C166.065,406.770 119.155,382.030 83.358,345.883 C32.880,294.910 5.320,222.074 9.403,150.433 C11.889,106.817 27.202,61.676 61.083,34.027 C101.026,1.428 158.043,-0.486 208.701,8.960 C259.358,18.407 308.226,37.556 359.592,41.763 C414.001,46.218 473.787,34.861 519.488,64.652 C532.722,73.279 543.780,84.912 553.231,97.563 C563.583,111.419 572.219,126.797 576.587,143.532 C584.814,175.056 577.226,208.904 563.417,238.444 C538.267,292.240 493.162,335.144 441.630,364.721 C415.638,379.639 387.934,391.407 359.506,400.811 Z"/>
-                  </g>
-                </svg>
-              </div><!-- .tf-svg-animation1 -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- End Contact Section -->
-
-    <!-- Start Map Section -->
-    <div class="tf-map-wrap">
-      <div class="tf-map-bar tf-flex">
-        <div class="tf-map-bar-img">
-          <img src="assets/img/light-img/map-icon-img.png" alt="">
-          <div class="tf-map-bar-icon"><i class="fas fa-map-marker-alt"></i></div>
-        </div>
-      </div>
-      <div class="tf-map-wrpa">
-        <div class="tf-google-map">
-          <!--<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d96652.27317354927!2d-74.33557928194516!3d40.79756494697628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3a82f1352d0dd%3A0x81d4f72c4435aab5!2sTroy+Meadows+Wetlands!5e0!3m2!1sen!2sbd!4v1563075599994!5m2!1sen!2sbd" allowfullscreen></iframe>-->
-        </div>
-      </div>
-    </div>
-    <!-- End Map Section -->
-  </div>
-
-  <!-- Start Footer Seciton -->
-  <footer class="tf-site-footer tf-style1 tf-sticky-footer">
-    <div class="tf-main-footer tf-section text-center">
-      <div class="container">
-        <div class="tf-footer-logo">
-          <img src="assets/img/light-img/footer-logo.png" alt="">
-        </div>
-        <div class="tf-footer-social">
-          <h3 class="tf-footer-social-title">联系我们</h3>
-          <ul class="tf-footer-social-btn tf-flex tf-mp0">
-            <li><a href="#">Bechance</a></li>
-            <li><a href="#">Dribbble</a></li>
-            <li><a href="#">WeiChat</a></li>
-            <li><a href="#">Weibo</a></li>
-            <li><a href="#">Pinterest</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="tf-copyright text-center">
-      <div class="container">
-        <div class="tf-copyright-text">© ahbp, 2020. Developed by <a href="#">TTFN</a></div>
-      </div>
-    </div>
-  </footer>
-  <!-- End Footer Seciton -->
-  <!-- Start Video Popup -->
-  <div class="tf-video-popup">
-    <div class="tf-video-popup-overlay"></div>
-    <div class="tf-video-popup-content">
-      <div class="tf-video-popup-layer"></div>
-      <div class="tf-video-popup-container">
-        <div class="tf-video-popup-align">
-          <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="about:blank"></iframe>
-          </div>
-        </div>
-        <div class="tf-video-popup-close"></div>
-      </div>
-    </div>
-  </div>
-  <!-- End Video Popup -->
-  <!-- Scripts -->
-  <script src="assets/js/vendor/modernizr-3.5.0.min.js"></script>
-  <script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
-  <script src="assets/js/mailchimp.min.js"></script>
-  <script src="assets/js/owlCarousel.min.js"></script>
-  <script src="assets/js/tamjid-counter.min.js"></script>
-  <script src="assets/js/wow.min.js"></script>
-  <script src="assets/js/main.js"></script>
+});
+</script>
 </body>
 </html>
